@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
-    const [buttonClicked, setButtonClicked] = useState()
+    const [buttonClicked, setButtonClicked] = useState({})
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const dispatch = useDispatch();
     const cart = useSelector(state=>state.cart.items);
@@ -253,8 +253,9 @@ const handlePlantsClick = (e) => {
   };
 
   const handleAddToCart = (plant) => {
-    dispatch(addItem(plant))
     setButtonClicked((prev)=> ({...prev, [plant.name]:true}))
+    console.log('set button clicked', buttonClicked);
+    dispatch(addItem(plant))
   }
 
 
@@ -335,7 +336,7 @@ const handlePlantsClick = (e) => {
                 <div className="product-title">{plant.name}</div>
                 <div className="product-description">{plant.description}</div>
                 <div className="product-cost">{plant.cost}</div>
-                <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                <button className="product-button" disabled={buttonClicked[plant.id]} onClick={() => handleAddToCart(plant)}>Add to Cart</button>
             </div>
             ))}
         </div>
